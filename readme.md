@@ -3,10 +3,44 @@
 
 ```
 public class Main {
-    static {
-        System.loadLibrary("TdApiWrap");
-        System.loadLibrary("MdApiWrap");
-    }
+	static {
+		try {
+
+			String templibpath = System.getProperty("java.io.tmpdir") + "ctp" + File.separator + "lib" + File.separator;
+			Files.createDirectories(Paths.get(templibpath));
+
+			String jarPathPrefix = "lib/win/";
+			// load dll for windows
+			String[] dll_entries = { "WinDataCollect.dll", "thostmduserapi_se.dll", "thosttraderapi_se.dll",
+					"MdApiWrap.dll", "TdApiWrap.dll" };
+
+			for (int i = 0; i < dll_entries.length; i++) {
+				String entry = dll_entries[i];
+				URL url = new URL("jar:file:ctp.jar!/" + jarPathPrefix + entry);
+				File targetfile = new File(templibpath + entry);
+				FileOutputStream out = new FileOutputStream(targetfile);
+				InputStream ins = url.openStream();
+				int byte_read;
+				byte[] buffer = new byte[8192];
+				while ((byte_read = ins.read(buffer,0,8192)) != -1) {
+					out.write(buffer,0,byte_read);
+				}
+				out.flush();
+				out.close();
+				targetfile.deleteOnExit();
+				System.out.println("copy : " + templibpath + entry);
+
+			}
+			for (int i = 0; i < dll_entries.length; i++) {
+				String entry = dll_entries[i];
+				System.out.println("load : " + templibpath + entry);
+				System.load(templibpath + entry);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+    
     public static void main(String[] args) {
 
         CThostFtdcMdApi mdapi = CThostFtdcMdApi.CreateFtdcMdApi("./con/md/", false, false);
