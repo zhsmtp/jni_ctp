@@ -1,4 +1,7 @@
-纯JNI封装的CTP库，Windows 64 bit和linux 64 bit， ctp是ctp_api_6.3.15_20190220的看穿生产版。
+# 纯JNI封装的CTP库，Windows 64 bit和linux 64 bit
+
+ctp是ctp_api_6.3.15_20190220的看穿生产版。
+
 LINUX下面，在运行java之前，需要EXPORT LD_LIBRARY_PATH=/tmp/ctp/lib/:$LD_LIBRARY_PATH.
 不然在wrap的库在寻找ctp库的时候，找不到～～～
 ```
