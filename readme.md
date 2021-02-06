@@ -1,3 +1,9 @@
+添加了一个v6.5.1版本。用法跟以前差不多。
+
+
+
+
+
 # 纯JNI封装的CTP库，Windows 64 bit和linux 64 bit
 
 ctp是ctp_api_6.3.15_20190220的看穿生产版。
